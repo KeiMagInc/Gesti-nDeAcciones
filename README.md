@@ -1,1 +1,1 @@
-# GestiónDeAcciones
+# Gestión De Acciones
