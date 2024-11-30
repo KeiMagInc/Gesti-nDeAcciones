@@ -84,7 +84,7 @@ public class StockDashboard {
     }
 
     public static StockData fetchStockData(String stockName, String purchaseDate) throws Exception {
-        String apiKey = "YOUR_API_KEY";  // Coloca tu clave de API aquí
+        String apiKey = "VPM7079HKZJGEWZN";  // Coloca tu clave de API aquí
         String urlString = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + stockName + "&apikey=" + apiKey + "&outputsize=full&datatype=csv";
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

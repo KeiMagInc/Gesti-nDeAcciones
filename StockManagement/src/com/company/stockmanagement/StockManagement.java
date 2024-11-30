@@ -12,7 +12,7 @@ public class StockManagement {
         Scanner scanner = new Scanner(System.in);
 
         // Clave API de Alpha Vantage (reemplaza con tu clave)
-        String apiKey = "FN4LBIK1RVRI8TPH";  // Reemplaza con tu clave API de Alpha Vantage
+        String apiKey = "VPM7079HKZJGEWZN";  // Reemplaza con tu clave API de Alpha Vantage
 
         // Crear una instancia de AlphaVantageAPI
         AlphaVantageAPI api = new AlphaVantageAPI(apiKey);
@@ -34,7 +34,7 @@ public class StockManagement {
                 int quantity = obtenerEnteroPositivo(scanner);
 
                 // Simular obtención del precio actual (puedes reemplazar con la API)
-                double currentPrice = 220;
+                double currentPrice = api.obtenerPrecioActual(symbol);
 
                 // Calcular valores relacionados con las acciones
                 double unitGain = currentPrice - purchasePrice;
