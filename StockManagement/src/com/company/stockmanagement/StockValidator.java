@@ -4,10 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * Clase utilitaria para validar datos relacionados con acciones, incluyendo
+ * números decimales, números enteros y fechas.
+ */
 public class StockValidator {
 
     /**
-     * Método para validar un número decimal positivo.
+     * Valida y obtiene un número decimal positivo ingresado por el usuario.
+     * 
+     * @param scanner el objeto Scanner para leer la entrada del usuario.
+     * @return un número decimal mayor a 0.
      */
     public static double obtenerDecimalPositivo(Scanner scanner) {
         double numero;
@@ -26,7 +33,10 @@ public class StockValidator {
     }
 
     /**
-     * Método para validar un número entero positivo.
+     * Valida y obtiene un número entero positivo ingresado por el usuario.
+     * 
+     * @param scanner el objeto Scanner para leer la entrada del usuario.
+     * @return un número entero mayor a 0.
      */
     public static int obtenerEnteroPositivo(Scanner scanner) {
         int numero;
@@ -45,7 +55,11 @@ public class StockValidator {
     }
 
     /**
-     * Método para validar una fecha en formato yyyy-MM-dd y rango entre 1900 y 2024.
+     * Valida y obtiene una fecha en formato <code>yyyy-MM-dd</code>. Asegura que
+     * la fecha esté entre los años 1900 y 2024.
+     * 
+     * @param scanner el objeto Scanner para leer la entrada del usuario.
+     * @return una fecha válida en formato <code>yyyy-MM-dd</code>.
      */
     public static String obtenerFechaValida(Scanner scanner) {
         while (true) {
