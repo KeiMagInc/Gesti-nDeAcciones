@@ -11,6 +11,7 @@ import com.company.stockmanagement.ui.DashboardClient;
  * @author saidl
  */
 public class StockController {
+
     private DashboardClient view;
     private AlphaVantageAPI api;
 
@@ -35,4 +36,24 @@ public class StockController {
             view.showError("Error: " + e.getMessage());
         }
     }
+
+    public void handleSave(String symbol, String purchasePriceText, String quantityText, String purchaseDateText) {
+        // Crear un StringBuilder para acumular errores
+        StringBuilder errores = new StringBuilder();
+
+        // Validar los valores ingresados y acumular errores si existen
+        double purchasePrice = StockValidator.validarDecimalPositivo(purchasePriceText, errores);
+        int quantity = StockValidator.validarEnteroPositivo(quantityText, errores);
+        String purchaseDate = StockValidator.validarFecha(purchaseDateText, errores);
+
+        // Si hay errores, mostrar el mensaje acumulado
+        if (errores.length() > 0) {
+            // Mostrar el mensaje de error a la vista
+            view.showError("Errores encontrados:\n" + errores.toString());
+        } else {
+            // Si todos los valores son válidos, procesar los datos
+            processStockData(symbol, purchasePrice, quantity, purchaseDate);
+        }
+    }
+
 }
