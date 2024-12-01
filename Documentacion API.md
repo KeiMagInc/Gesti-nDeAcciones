@@ -1,3 +1,7 @@
+La API se agrupa en ocho categorías: (1) API de datos de acciones de series temporales básicas, (2) API de datos de opciones de EE. UU., (3) Alpha Intelligence™, (4) Datos fundamentales, (5) Monedas físicas y digitales/criptomonedas (por ejemplo, Bitcoin), (6) Materias primas, (7) Indicadores económicos y (8) Indicadores técnicos.
+
+Para este proyecto se usa específicamente **API de datos de acciones de series temporales básicas**
+---
 # API de datos bursátiles de series temporales
 ## Conjunto de API de Renta Variable Global
 
@@ -240,18 +244,18 @@ Esta API devuelve series de tiempo ajustadas semanalmente que incluyen el últim
 
 ## Parámetros de la API
 
-### ❚ **Obligatorio:** `function`
+- **Obligatorio:** `function`
 La serie temporal seleccionada.  
 En este caso: `function=TIME_SERIES_WEEKLY_ADJUSTED`
 
-### ❚ **Obligatorio:** `symbol`
+- **Obligatorio:** `symbol`
 El nombre del valor de su elección.  
 Ejemplo: `symbol=IBM`
 
-### ❚ **Opcional:** `datatype`
-El formato de salida de los datos. Por defecto, `datatype=json`. Se aceptan las siguientes opciones:
-- `json`: Devuelve la serie temporal semanal en formato JSON.
-- `csv`: Devuelve la serie temporal como un archivo CSV.
+- **Opcional:** `datatype`
+- El formato de salida de los datos. Por defecto, `datatype=json`. Se aceptan las siguientes opciones:
+  - `json`: Devuelve la serie temporal semanal en formato JSON.
+  - `csv`: Devuelve la serie temporal como un archivo CSV.
 
 ---
 
@@ -293,22 +297,22 @@ Esta API devuelve series de tiempo mensuales (último día de negociación de ca
 
 ## Parámetros de la API
 
-### ❚ Obligatorio: `function`
+- **Obligatorio:** `function`
 La serie temporal de su elección. En este caso:  
 `function=TIME_SERIES_MONTHLY`
 
-### ❚ Obligatorio: `symbol`
+- **Obligatorio:** `symbol`
 El nombre del valor de su elección. Por ejemplo:  
 `symbol=IBM`
 
-### ❚ Opcional: `datatype`
-Especifica el formato de los datos devueltos. Los valores posibles son:
-- **`json`** (por defecto): Devuelve la serie temporal en formato JSON.
-- **`csv`**: Devuelve la serie temporal como un archivo CSV (valores separados por comas).  
+- **Opcional:** `datatype`
+- Especifica el formato de los datos devueltos. Los valores posibles son:
+  - **`json`** (por defecto): Devuelve la serie temporal en formato JSON.
+  - **`csv`**: Devuelve la serie temporal como un archivo CSV (valores separados por comas).  
 
 Ejemplo: `datatype=csv`
 
-### ❚ Obligatorio: `apikey`
+- **Obligatorio:** `apikey`
 Tu clave API. Solicita tu clave API gratuita [aquí](https://www.alphavantage.co/support/#api-key).
 
 ---
@@ -327,22 +331,22 @@ Esta API devuelve series de tiempo ajustadas mensualmente (último día de negoc
 
 ## Parámetros de la API
 
-### ❚ Obligatorio: `function`
+- **Obligatorio:** `function`
 La serie temporal de su elección. En este caso:  
 `function=TIME_SERIES_MONTHLY_ADJUSTED`
 
-### ❚ Obligatorio: `symbol`
+- **Obligatorio:** `symbol`
 El nombre del valor de su elección. Por ejemplo:  
 `symbol=IBM`
 
-### ❚ Opcional: `datatype`
-Especifica el formato de los datos devueltos. Los valores posibles son:
-- **`json`** (por defecto): Devuelve la serie temporal en formato JSON.
-- **`csv`**: Devuelve la serie temporal como un archivo CSV (valores separados por comas).  
+- **Opcional:** `datatype`
+- Especifica el formato de los datos devueltos. Los valores posibles son:
+  - **`json`** (por defecto): Devuelve la serie temporal en formato JSON.
+  - **`csv`**: Devuelve la serie temporal como un archivo CSV (valores separados por comas).  
 
 Ejemplo: `datatype=csv`
 
-### ❚ Obligatorio: `apikey`
+- **Obligatorio:** `apikey`
 Tu clave API. Solicita tu clave API gratuita [aquí](https://www.alphavantage.co/support/#api-key).
 
 ---
@@ -363,21 +367,21 @@ Si desea consultar un gran universo de tickers de forma masiva, puede probar nue
 
 ## Parámetros de la API
 
-### ❚ Obligatorio: `function`
+- **Obligatorio:** `function`
 La función API de su elección.
 
-### ❚ Obligatorio: `symbol`
+- **Obligatorio:** `symbol`
 El símbolo del ticker global de su elección. Por ejemplo:  
 `symbol=IBM`
 
-### ❚ Opcional: `datatype`
-Especifica el formato de los datos devueltos. Los valores posibles son:
-- **`json`** (por defecto): Devuelve los datos de cotización en formato JSON.
-- **`csv`**: Devuelve los datos de cotización como un archivo CSV (valores separados por comas).  
+- **Opcional:** `datatype`
+- Especifica el formato de los datos devueltos. Los valores posibles son:
+  - **`json`** (por defecto): Devuelve los datos de cotización en formato JSON.
+  - **`csv`**: Devuelve los datos de cotización como un archivo CSV (valores separados por comas).  
 
 Ejemplo: `datatype=csv`
 
-### ❚ Obligatorio: `apikey`
+- **Obligatorio:** `apikey`
 Tu clave API. Solicita tu clave API gratuita [aquí](https://www.alphavantage.co/support/#api-key).
 
 ---
@@ -396,16 +400,16 @@ Esta API devuelve cotizaciones en tiempo real de símbolos que se comercializan 
 
 ## Parámetros de la API
 
-### ❚ Obligatorio: `function`
+- **Obligatorio:** `function`
 La función API de su elección. En este caso:  
 `function=REALTIME_BULK_QUOTES`
 
-### ❚ Obligatorio: `symbol`
+- **Obligatorio:** `symbol`
 Hasta 100 símbolos separados por coma. Ejemplo:  
 `symbol=MSFT,AAPL,IBM`  
 Si se proporcionan más de 100 símbolos, solo se tendrán en cuenta los primeros 100 símbolos como parte de la entrada de la API.
 
-### ❚ Obligatorio: `apikey`
+- **Obligatorio:** `apikey`
 Tu clave API. Solicita tu clave API gratuita [aquí](https://www.alphavantage.co/support/#api-key).
 
 ---
@@ -426,20 +430,20 @@ El punto final de búsqueda devuelve los símbolos y la información de mercado 
 
 ## Parámetros de la API
 
-### ❚ Obligatorio: `function`
+- **Obligatorio:** `function`
 La función API que elijas. En este caso:  
 `function=SYMBOL_SEARCH`
 
-### ❚ Obligatorio: `keywords`
+- **Obligatorio:** `keywords`
 Una cadena de texto de su elección. Ejemplo:  
 `keywords=microsoft`
 
-### ❚ Opcional: `datatype`
-De forma predeterminada, se aceptan `datatype=json`. Las cadenas disponibles son:  
-- `json`: Devuelve los resultados de la búsqueda en formato JSON.  
-- `csv`: Devuelve los resultados de la búsqueda como un archivo CSV (valores separados por comas).
+- **Opcional:** `datatype`
+- De forma predeterminada, se aceptan `datatype=json`. Las cadenas disponibles son:  
+  - `json`: Devuelve los resultados de la búsqueda en formato JSON.  
+  - `csv`: Devuelve los resultados de la búsqueda como un archivo CSV (valores separados por comas).
 
-### ❚ Obligatorio: `apikey`
+- **Obligatorio:** `apikey`
 Tu clave API. Solicita tu clave API gratuita [aquí](https://www.alphavantage.co/support/#api-key).
 
 ---
@@ -458,11 +462,11 @@ Este punto final devuelve el estado actual del mercado (abierto vs. cerrado) de 
 
 ## Parámetros de la API
 
-### ❚ Obligatorio: `function`
+- **Obligatorio:** `function`
 La función API que elijas. En este caso:  
 `function=MARKET_STATUS`
 
-### ❚ Obligatorio: `apikey`
+- **Obligatorio:** `apikey`
 Tu clave API. Solicita tu clave API gratuita [aquí](https://www.alphavantage.co/support/#api-key).
 
 ---
