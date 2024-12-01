@@ -25,16 +25,15 @@ public class DashboardClient extends javax.swing.JFrame {
     private StockController controller;
     private AlphaVantageAPI api;
     private DefaultTableModel model;
-
+    private static final String API_KEY = "70QX4UDI1NSM2LKD";
     /**
      * Constructor to initialize the dashboard client, set up the controller and
      * API.
      */
     public DashboardClient() {
         initComponents();
-        String apiKey = "70QX4UDI1NSM2LKD";
-        controller = new StockController(this, apiKey);
-        this.api = new AlphaVantageAPI(apiKey);
+        controller = new StockController(this, API_KEY);
+        this.api = new AlphaVantageAPI(API_KEY);
 
         // Initialize the table with an empty row to prevent NullPointerException
         model = (DefaultTableModel) jTable1.getModel();
@@ -64,97 +63,37 @@ public class DashboardClient extends javax.swing.JFrame {
      * @param stockValues the calculated stock values.
      */
     public void updateTable(String symbol, int quantity, String purchaseDate, double purchasePrice,
-            double currentPrice, StockValue stockValues) {
+                             double currentPrice, StockValue stockValues) {
 
+        String currentDate = getCurrentDate();
         Object[] newRow = new Object[]{
-            symbol,
-            quantity,
-            purchaseDate,
-            purchasePrice,
-            getCurrentDate(),
-            currentPrice,
-            stockValues.getUnitGain(),
-            stockValues.getUnitPercentage(),
-            stockValues.getTotalBalance(),
-            stockValues.getTotalGain()
+                symbol,
+                quantity,
+                purchaseDate,
+                purchasePrice,
+                currentDate,
+                currentPrice,
+                stockValues.getUnitGain(),
+                stockValues.getUnitPercentage(),
+                stockValues.getTotalBalance(),
+                stockValues.getTotalGain()
         };
 
-        // Insert the new row at the beginning of the table
+        // Insertar nueva fila o actualizar la existente
         model.insertRow(0, newRow);
 
-        // Update the table view
+        // Actualizar la vista
         jTable1.setModel(model);
-
-        // Show success message
         javax.swing.JOptionPane.showMessageDialog(this, "Successfully saved");
     }
-
-    /**
-     * Update a specific row in the table.
-     *
-     * @param rowIndex the index of the row to update.
-     * @param symbol the stock symbol.
-     * @param quantity the quantity of stock.
-     * @param purchaseDate the purchase date.
-     * @param purchasePrice the purchase price.
-     * @param currentPrice the current stock price.
-     * @param stockValues the calculated stock values.
-     */
-    private void updateTableRow(int rowIndex, String symbol, int quantity, String purchaseDate, double purchasePrice, double currentPrice, StockValue stockValues) {
-        model.setValueAt(symbol, rowIndex, 0);  // Column 0: Symbol
-        model.setValueAt(quantity, rowIndex, 1);  // Column 1: Quantity
-        model.setValueAt(purchaseDate, rowIndex, 2);  // Column 2: Purchase Date
-        model.setValueAt(purchasePrice, rowIndex, 3);  // Column 3: Purchase Price
-        model.setValueAt(getCurrentDate(), rowIndex, 4);  // Column 4: Current Date
-        model.setValueAt(currentPrice, rowIndex, 5);  // Column 5: Current Price
-        model.setValueAt(stockValues.getUnitGain(), rowIndex, 6);  // Column 6: Unit Gain
-        model.setValueAt(stockValues.getUnitPercentage(), rowIndex, 7);  // Column 7: Unit Percentage
-        model.setValueAt(stockValues.getTotalBalance(), rowIndex, 8);  // Column 8: Total Balance
-        model.setValueAt(stockValues.getTotalGain(), rowIndex, 9);  // Column 9: Total Gain
-    }
-
-    /**
+    
+     /**
      * Show an error message.
      *
      * @param message the error message to display.
      */
     public void showError(String message) {
         javax.swing.JOptionPane.showMessageDialog(this, message);
-    }
-
-    private void processStockData(DefaultTableModel model, AlphaVantageAPI api) {
-        for (int i = 0; i < model.getRowCount(); i++) {
-            // Verificar si el símbolo es nulo o vacío en la columna 0 (Símbolo)
-            String symbol = model.getValueAt(i, 0) != null ? model.getValueAt(i, 0).toString() : "";
-            if (symbol.isEmpty()) {
-                continue;
-            }
-
-            String purchasePriceText = model.getValueAt(i, 3) != null ? model.getValueAt(i, 3).toString() : "0.0";
-            double purchasePrice = Double.parseDouble(purchasePriceText);
-            if (purchasePrice <= 0) {
-                continue;
-            }
-
-            String quantityText = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "0";
-            int quantity = Integer.parseInt(quantityText);
-            if (quantity <= 0) {
-                continue;
-            }
-
-            String purchaseDate = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
-            if (purchaseDate.isEmpty()) {
-                continue;
-            }
-
-            double currentPrice = api.getCurrentPrice(symbol);
-
-            StockValue stockValues = StockController.calculateStockValues(purchasePrice, currentPrice, quantity);
-
-            updateTableRow(i, symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
-        }
-        // Mostrar mensaje de éxito al finalizar
-        JOptionPane.showMessageDialog(null, "Data successfully updated", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -398,7 +337,7 @@ public class DashboardClient extends javax.swing.JFrame {
         String purchaseDateText = txtFPurchaseDate.getText();
 
         // Call the controller to process the stock data
-        controller.handleSave(symbol, purchasePriceText, quantityText, purchaseDateText);
+         controller.handleSave(symbol, purchasePriceText, quantityText, purchaseDateText);
     }//GEN-LAST:event_btnSaveActionActionPerformed
 
     /**
@@ -407,7 +346,8 @@ public class DashboardClient extends javax.swing.JFrame {
      * @param evt the event triggered by the update button.
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        processStockData(model, api);
+       StockDataUpdater updater = new StockDataUpdater(model);
+        updater.processStockData(getCurrentDate(), api);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void comboBoxSymbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSymbolActionPerformed
