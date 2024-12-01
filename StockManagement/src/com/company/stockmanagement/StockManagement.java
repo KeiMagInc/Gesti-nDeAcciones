@@ -1,32 +1,36 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package com.company.stockmanagement;
 
 import com.company.stockmanagement.ui.DashboardClient;
 
 /**
- * Clase principal para gestionar el stock de acciones. Permite al usuario registrar
- * información sobre las acciones compradas, obtener el precio actual mediante la API
- * de Alpha Vantage y calcular y mostrar los valores asociados a las acciones.
- * 
- * El flujo de la clase incluye la validación de la entrada del usuario, la obtención de datos
- * de la API, el cálculo de los valores de las acciones y la actualización de un dashboard con la
- * información ingresada.
- * 
+ * Main class for managing stock. It allows users to register information about
+ * purchased stocks, obtain the current price using the Alpha Vantage API, and
+ * calculate and display the associated stock values.
+ *
+ * The class flow includes user input validation, retrieving data from the API,
+ * calculating stock values, and updating a dashboard with the entered
+ * information.
+ *
  * @author Gabriel
  */
 public class StockManagement {
 
     /**
-     * Método principal que ejecuta el programa de gestión de acciones.
-     * Permite al usuario ingresar datos sobre las acciones compradas y calcula
-     * los valores relacionados con las acciones.
-     * 
-     * @param args los argumentos de la línea de comandos.
+     * Main method that runs the stock management program. Allows the user to
+     * input data about purchased stocks and calculates the associated stock
+     * values.
+     *
+     * @param args the command line arguments.
      */
     public static void main(String[] args) {
-        // Lanza la interfaz gráfica de usuario (DashboardClient)
+        // Launch the graphical user interface (DashboardClient)
         java.awt.EventQueue.invokeLater(() -> {
-            // Inicia el JFrame de la UI
+            // Start the JFrame of the UI
             new DashboardClient().setVisible(true);
         });
-}
+    }
 }

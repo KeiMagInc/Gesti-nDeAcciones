@@ -1,34 +1,59 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package com.company.stockmanagement;
 
 /**
- * Representa los valores de una acción, incluyendo el costo total, el valor actual,
- * las ganancias/pérdidas, el porcentaje de ganancia/pérdida, y el saldo total.
- * Proporciona métodos para acceder y modificar estos valores.
- * 
- * @author 
+ * Represents the values of a stock, including total cost, current value,
+ * gains/losses, percentage of gain/loss, and total balance. Provides methods to
+ * access and modify these values.
+ *
+ * @author Gabriel
  */
 public class StockValue {
 
-    /** Costo total de la acción. */
+    /**
+     * Total cost of the stock.
+     */
     private double totalCost;
 
-    /** Valor actual de la acción. */
+    /**
+     * Current value of the stock.
+     */
     private double currentValue;
 
-    /** Ganancia por unidad de la acción. */
+    /**
+     * Gain per unit of the stock.
+     */
     private double unitGain;
 
-    /** Porcentaje de ganancia por unidad de la acción. */
+    /**
+     * Percentage gain per unit of the stock.
+     */
     private double unitPercentage;
 
-    /** Saldo total de la inversión en la acción. */
+    /**
+     * Total balance of the stock investment.
+     */
     private double totalBalance;
 
-    /** Ganancia total obtenida de la acción. */
+    /**
+     * Total gain from the stock.
+     */
     private double totalGain;
 
-    
-    public StockValue(double totalCost, double currentValue,double unitGain, double unitPercentage, double totalBalance, double totalGain) {
+    /**
+     * Constructor for the StockValue class.
+     *
+     * @param totalCost the total cost of the stock.
+     * @param currentValue the current value of the stock.
+     * @param unitGain the gain per unit of the stock.
+     * @param unitPercentage the percentage gain per unit of the stock.
+     * @param totalBalance the total balance of the stock investment.
+     * @param totalGain the total gain from the stock.
+     */
+    public StockValue(double totalCost, double currentValue, double unitGain, double unitPercentage, double totalBalance, double totalGain) {
         this.totalCost = totalCost;
         this.currentValue = currentValue;
         this.unitGain = unitGain;
@@ -38,105 +63,108 @@ public class StockValue {
     }
 
     /**
-     * Obtiene el costo total de la acción.
-     * 
-     * @return el costo total.
+     * Gets the total cost of the stock.
+     *
+     * @return the total cost.
      */
     public double getTotalCost() {
         return totalCost;
     }
 
     /**
-     * Obtiene el valor actual de la acción.
-     * 
-     * @return el valor actual.
+     * Gets the current value of the stock.
+     *
+     * @return the current value.
      */
     public double getCurrentValue() {
         return currentValue;
     }
+
     /**
-     * Obtiene la ganancia por unidad de la acción.
-     * 
-     * @return la ganancia por unidad.
+     * Gets the gain per unit of the stock.
+     *
+     * @return the gain per unit.
      */
     public double getUnitGain() {
         return unitGain;
     }
+
     /**
-     * Obtiene el porcentaje de ganancia por unidad de la acción.
-     * 
-     * @return el porcentaje de ganancia por unidad.
+     * Gets the percentage gain per unit of the stock.
+     *
+     * @return the percentage gain per unit.
      */
     public double getUnitPercentage() {
         return unitPercentage;
     }
+
     /**
-     * Obtiene el saldo total de la inversión en la acción.
-     * 
-     * @return el saldo total.
+     * Gets the total balance of the stock investment.
+     *
+     * @return the total balance.
      */
     public double getTotalBalance() {
         return totalBalance;
     }
 
     /**
-     * Obtiene la ganancia total obtenida de la acción.
-     * 
-     * @return la ganancia total.
+     * Gets the total gain from the stock.
+     *
+     * @return the total gain.
      */
     public double getTotalGain() {
         return totalGain;
     }
 
     /**
-     * Establece el costo total de la acción.
-     * 
-     * @param totalCost el costo total a establecer.
+     * Sets the total cost of the stock.
+     *
+     * @param totalCost the total cost to set.
      */
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
     }
 
     /**
-     * Establece el valor actual de la acción.
-     * 
-     * @param currentValue el valor actual a establecer.
+     * Sets the current value of the stock.
+     *
+     * @param currentValue the current value to set.
      */
     public void setCurrentValue(double currentValue) {
         this.currentValue = currentValue;
     }
-    
+
     /**
-     * Establece la ganancia por unidad de la acción.
-     * 
-     * @param unitGain la ganancia por unidad a establecer.
+     * Sets the gain per unit of the stock.
+     *
+     * @param unitGain the gain per unit to set.
      */
     public void setUnitGain(double unitGain) {
         this.unitGain = unitGain;
     }
 
     /**
-     * Establece el porcentaje de ganancia por unidad de la acción.
-     * 
-     * @param unitPercentage el porcentaje de ganancia por unidad a establecer.
+     * Sets the percentage gain per unit of the stock.
+     *
+     * @param unitPercentage the percentage gain per unit to set.
      */
     public void setUnitPercentage(double unitPercentage) {
         this.unitPercentage = unitPercentage;
     }
 
     /**
-     * Establece el saldo total de la inversión en la acción.
-     * 
-     * @param totalBalance el saldo total a establecer.
+     * Sets the total balance of the stock investment.
+     *
+     * @param totalBalance the total balance to set.
      */
     public void setTotalBalance(double totalBalance) {
         this.totalBalance = totalBalance;
     }
 
     /**
-     * Establece la ganancia total obtenida de la acción.
-     * 
-     * @param totalGain la ganancia total a establecer.
+     * Sets the total gain from the stock.
+     *
+     * @param totalGain the total gain to set.
      */
     public void setTotalGain(double totalGain) {
         this.totalGain = totalGain;
