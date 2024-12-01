@@ -2,7 +2,7 @@ package com.company.stockmanagement;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  * Clase utilitaria para validar datos relacionados con acciones, incluyendo
@@ -11,76 +11,78 @@ import java.util.Scanner;
 public class StockValidator {
 
     /**
-     * Valida y obtiene un número decimal positivo ingresado por el usuario.
-     * 
-     * @param scanner el objeto Scanner para leer la entrada del usuario.
-     * @return un número decimal mayor a 0.
+     * Valida que una cadena represente un número decimal positivo.
+     *
+     * @param input el texto a validar.
+     * @return el número decimal si es válido, o -1 si no lo es.
      */
-    public static double obtenerDecimalPositivo(Scanner scanner) {
-        double numero;
-        while (true) {
-            try {
-                numero = Double.parseDouble(scanner.nextLine());
-                if (numero > 0) {
-                    return numero;
-                } else {
-                    System.out.print("El número debe ser mayor a 0. Intenta de nuevo: ");
-                }
-            } catch (NumberFormatException e) {
-                System.out.print("Entrada inválida. Ingresa un número decimal válido: ");
+    public static double validarDecimalPositivo(String input) {
+        try {
+            double numero = Double.parseDouble(input);
+            if (numero > 0) {
+                return numero;
+            } else {
+                JOptionPane.showMessageDialog(null, "Entrada inválida: Purchase price debe ser mayor a 0");
             }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Entrada inválida en purchase price. Ingresa un número decimal válido.");
         }
+        return -1;
     }
 
     /**
-     * Valida y obtiene un número entero positivo ingresado por el usuario.
-     * 
-     * @param scanner el objeto Scanner para leer la entrada del usuario.
-     * @return un número entero mayor a 0.
+     * Valida que una cadena represente un número entero positivo.
+     *
+     * @param input el texto a validar.
+     * @return el número entero si es válido, o -1 si no lo es.
      */
-    public static int obtenerEnteroPositivo(Scanner scanner) {
-        int numero;
-        while (true) {
-            try {
-                numero = Integer.parseInt(scanner.nextLine());
-                if (numero > 0) {
-                    return numero;
-                } else {
-                    System.out.print("El número debe ser mayor a 0. Intenta de nuevo: ");
-                }
-            } catch (NumberFormatException e) {
-                System.out.print("Entrada inválida. Ingresa un número entero válido: ");
+    public static int validarEnteroPositivo(String input) {
+        try {
+            int numero = Integer.parseInt(input);
+            if (numero > 0) {
+                return numero;
+            } else {
+                JOptionPane.showMessageDialog(null, "Entrada inválida:  Quantity debe ser mayor a 0");
             }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Entrada inválida: Quantity debe ser un número entero.");
         }
+        return -1;
     }
 
     /**
-     * Valida y obtiene una fecha en formato <code>yyyy-MM-dd</code>. Asegura que
-     * la fecha esté entre los años 1900 y 2024.
-     * 
-     * @param scanner el objeto Scanner para leer la entrada del usuario.
-     * @return una fecha válida en formato <code>yyyy-MM-dd</code>.
+     * Valida que una cadena sea una fecha válida en formato
+     * <code>dd/MM/yyyy</code>.
+     *
+     * @param input el texto a validar.
+     * @return la fecha si es válida, o null si no lo es.
      */
-    public static String obtenerFechaValida(Scanner scanner) {
-        while (true) {
-            try {
-                System.out.print("Ingresa la fecha de compra (formato: yyyy-MM-dd): ");
-                String fechaIngresada = scanner.nextLine();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                dateFormat.setLenient(false);
-                Date date = dateFormat.parse(fechaIngresada);
+    public static String validarFecha(String input) {
+    try {
+        // Cambiar el formato de entrada a dd/MM/yyyy
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        Date date = dateFormat.parse(input);
 
-                // Validar rango de fechas
-                SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
-                int year = Integer.parseInt(yearFormat.format(date));
-                if (year >= 1900 && year <= 2024) {
-                    return fechaIngresada;
-                } else {
-                    System.out.println("El año debe estar entre 1900 y 2024. Intenta de nuevo.");
-                }
-            } catch (Exception e) {
-                System.out.println("Por favor, ingresa una fecha válida en el formato yyyy-MM-dd.");
-            }
+        // Obtener la fecha actual
+        Date today = new Date();
+
+        // Validar rango de fechas
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        int year = Integer.parseInt(yearFormat.format(date));
+        if (year >= 2000 && date.compareTo(today) <= 0) {
+            // Retornar la fecha en el mismo formato dd/MM/yyyy
+            return dateFormat.format(date);
+        } else if (year < 2000) {
+            JOptionPane.showMessageDialog(null, "El año debe ser mayor o igual a 2000.");
+        } else {
+            JOptionPane.showMessageDialog(null, "La fecha no puede ser mayor a la fecha actual.");
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Por favor, ingresa una fecha válida en el formato dd/MM/yyyy.");
     }
+    return null;
+}
+
+
 }

@@ -8,8 +8,10 @@ import com.company.stockmanagement.AlphaVantageAPI;
 import com.company.stockmanagement.StockController;
 import com.company.stockmanagement.StockDashboard;
 import com.company.stockmanagement.StockData;
+import com.company.stockmanagement.StockValidator;
 import com.company.stockmanagement.StockValue;
 import java.util.HashSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,7 +30,7 @@ public class DashboardClient extends javax.swing.JFrame {
     public DashboardClient() {
         initComponents();
         // Inicializamos el controlador con la vista (DashboardClient) y la clave de la API
-        String apiKey = "Q9WZOTUJV72CYWXA"; // Clave de API
+        String apiKey = "70QX4UDI1NSM2LKD"; // Clave de API
         controller = new StockController(this, apiKey);
         this.api = new AlphaVantageAPI(apiKey);
     }
@@ -341,12 +343,21 @@ public class DashboardClient extends javax.swing.JFrame {
     private void btnSaveActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionActionPerformed
         // Obtener los valores ingresados por el usuario
         String symbol = comboBoxSymbol.getSelectedItem().toString();
-        double purchasePrice = Double.parseDouble(txtFPurchasePrice.getText());
-        int quantity = Integer.parseInt(txtFQuantity.getText());
-        String purchaseDate = txtFPurchaseDate.getText();
+        String purchasePriceText = txtFPurchasePrice.getText();
+        String quantityText = txtFQuantity.getText();
+        String purchaseDateText = txtFPurchaseDate.getText();
 
-        // Llamar al controlador para procesar los datos
-        controller.processStockData(symbol, purchasePrice, quantity, purchaseDate);
+        // Validar los valores ingresados
+        double purchasePrice = StockValidator.validarDecimalPositivo(purchasePriceText);
+        int quantity = StockValidator.validarEnteroPositivo(quantityText);
+        String purchaseDate = StockValidator.validarFecha(purchaseDateText);
+
+        // Si todos los valores son válidos, proceder con el controlador
+        if (purchasePrice != -1 && quantity != -1 && purchaseDate != null) {
+            controller.processStockData(symbol, purchasePrice, quantity, purchaseDate);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor corrige los errores antes de guardar.");
+        }
     }//GEN-LAST:event_btnSaveActionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
