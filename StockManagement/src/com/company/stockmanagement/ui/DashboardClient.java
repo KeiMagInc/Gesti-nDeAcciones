@@ -9,6 +9,7 @@ import com.company.stockmanagement.StockController;
 import com.company.stockmanagement.StockValue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -119,6 +120,41 @@ public class DashboardClient extends javax.swing.JFrame {
      */
     public void showError(String message) {
         javax.swing.JOptionPane.showMessageDialog(this, message);
+    }
+
+    private void processStockData(DefaultTableModel model, AlphaVantageAPI api) {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            // Verificar si el símbolo es nulo o vacío en la columna 0 (Símbolo)
+            String symbol = model.getValueAt(i, 0) != null ? model.getValueAt(i, 0).toString() : "";
+            if (symbol.isEmpty()) {
+                continue;
+            }
+
+            String purchasePriceText = model.getValueAt(i, 3) != null ? model.getValueAt(i, 3).toString() : "0.0";
+            double purchasePrice = Double.parseDouble(purchasePriceText);
+            if (purchasePrice <= 0) {
+                continue;
+            }
+
+            String quantityText = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "0";
+            int quantity = Integer.parseInt(quantityText);
+            if (quantity <= 0) {
+                continue;
+            }
+
+            String purchaseDate = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
+            if (purchaseDate.isEmpty()) {
+                continue;
+            }
+
+            double currentPrice = api.getCurrentPrice(symbol);
+
+            StockValue stockValues = StockController.calculateStockValues(purchasePrice, currentPrice, quantity);
+
+            updateTableRow(i, symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
+        }
+        // Mostrar mensaje de éxito al finalizar
+        JOptionPane.showMessageDialog(null, "Data successfully updated", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -371,36 +407,7 @@ public class DashboardClient extends javax.swing.JFrame {
      * @param evt the event triggered by the update button.
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        for (int i = 0; i < model.getRowCount(); i++) {
-            // Verificar si el símbolo es nulo o vacío en la columna 0 (Símbolo)
-            String symbol = model.getValueAt(i, 0) != null ? model.getValueAt(i, 0).toString() : "";
-            if (symbol.isEmpty()) {
-                continue;
-            }
-
-            String purchasePriceText = model.getValueAt(i, 3) != null ? model.getValueAt(i, 3).toString() : "0.0";
-            double purchasePrice = Double.parseDouble(purchasePriceText);
-            if (purchasePrice <= 0) {
-                continue;
-            }
-
-            String quantityText = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "0";
-            int quantity = Integer.parseInt(quantityText);
-            if (quantity <= 0) {
-                continue;
-            }
-
-            String purchaseDate = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
-            if (purchaseDate.isEmpty()) {
-                continue;
-            }
-
-            double currentPrice = api.getCurrentPrice(symbol);
-
-            StockValue stockValues = StockController.calculateStockValues(purchasePrice, currentPrice, quantity);
-
-            updateTableRow(i, symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
-        }
+        processStockData(model, api);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void comboBoxSymbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSymbolActionPerformed
