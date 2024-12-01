@@ -79,7 +79,13 @@ public class StockController {
         } else {
             // Si todos los valores son válidos, procesar los datos de stock
             processStockData(symbol, purchasePrice, quantity, purchaseDate, usuario);
+
+            view.showError("Errors found:\n" + errors);
+            return; // Salir temprano si hay errores
+
         }
+        // Si todos los valores son válidos, procesar los datos
+        processStockData(symbol, purchasePrice, quantity, purchaseDate);
     }
 
     /**
