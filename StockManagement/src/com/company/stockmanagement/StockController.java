@@ -65,12 +65,11 @@ public class StockController {
 
         // If there are errors, display the accumulated error message
         if (errors.length() > 0) {
-            // Show the error message to the view
-            view.showError("Errors found:\n" + errors.toString());
-        } else {
-            // If all values are valid, process the stock data
-            processStockData(symbol, purchasePrice, quantity, purchaseDate);
+            view.showError("Errors found:\n" + errors);
+            return; // Salir temprano si hay errores
         }
+        // Si todos los valores son válidos, procesar los datos
+        processStockData(symbol, purchasePrice, quantity, purchaseDate);
     }
 
     /**
