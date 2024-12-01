@@ -3,10 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Gabriel/Desktop/ConstruccionProyecto/Nueva%20carpeta/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/AlphaVantageAPI.java</file>
             <file>file:/C:/Users/Gabriel/Desktop/ConstruccionProyecto/Nueva%20carpeta/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/StockManagement.java</file>
             <file>file:/C:/Users/Gabriel/Desktop/ConstruccionProyecto/Nueva%20carpeta/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/ui/DashboardClient.java</file>
             <file>file:/C:/Users/Gabriel/Desktop/ConstruccionProyecto/Nueva%20carpeta/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/StockController.java</file>
+=======
+            <file>file:/C:/Users/59396/Documents/GitHub/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/StockController.java</file>
+            <file>file:/C:/Users/59396/Documents/GitHub/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/StockManagement.java</file>
+            <file>file:/C:/Users/59396/Documents/GitHub/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/StockValidator.java</file>
+            <file>file:/C:/Users/59396/Documents/GitHub/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/StockValue.java</file>
+            <file>file:/C:/Users/59396/Documents/GitHub/GestionDeAcciones/StockManagement/src/com/company/stockmanagement/AlphaVantageAPI.java</file>
+>>>>>>> 78298b0e097054aba9e5f8bb8d35fc7be2c73e02
         </group>
     </open-files>
 </project-private>
