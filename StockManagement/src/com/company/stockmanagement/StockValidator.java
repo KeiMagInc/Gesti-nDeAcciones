@@ -19,11 +19,11 @@ public class StockValidator {
     public static double validatePositiveDecimal(String input, StringBuilder errors) {
         try {
             double number = Double.parseDouble(input);
-            if (number > 0) {
-                return number;
-            } else {
+            if (number <= 0) {
                 errors.append("Purchase price must be greater than 0.\n");
+                return 0; // o el valor que quieras devolver en caso de error
             }
+            return number;
         } catch (NumberFormatException e) {
             errors.append("Purchase price must be a valid decimal number.\n");
         }
@@ -40,11 +40,11 @@ public class StockValidator {
     public static int validatePositiveInteger(String input, StringBuilder errors) {
         try {
             int number = Integer.parseInt(input);
-            if (number > 0) {
-                return number;
-            } else {
+            if (number <= 0) {
                 errors.append("Quantity must be greater than 0.\n");
+                return 0; // O cualquier valor que tenga sentido devolver en caso de error
             }
+            return number;
         } catch (NumberFormatException e) {
             errors.append("Quantity must be a valid integer number.\n");
         }
@@ -68,13 +68,18 @@ public class StockValidator {
             SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
             int year = Integer.parseInt(yearFormat.format(date));
 
-            if (year >= 2000 && date.compareTo(today) <= 0) {
-                return dateFormat.format(date);
-            } else if (year < 2000) {
+            if (year < 2000) {
                 errors.append("The year of the date must be greater than or equal to 2000.\n");
-            } else {
-                errors.append("The date cannot be later than the current date.\n");
+                return null; // O el valor adecuado en caso de error
             }
+
+            if (date.compareTo(today) > 0) {
+                errors.append("The date cannot be later than the current date.\n");
+                return null; // O el valor adecuado en caso de error
+            }
+
+            return dateFormat.format(date);
+
         } catch (Exception e) {
             errors.append("Invalid date: Incorrect format. Use dd/MM/yyyy.\n");
         }

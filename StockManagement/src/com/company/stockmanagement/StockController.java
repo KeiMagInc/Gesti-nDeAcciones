@@ -10,6 +10,7 @@ public class StockController {
 
     private DashboardClient view;
     private AlphaVantageAPI api;
+    private Usuario usuario;
 
     /**
      * Constructor for StockController.
@@ -20,6 +21,7 @@ public class StockController {
     public StockController(DashboardClient view, String apiKey) {
         this.view = view;
         this.api = new AlphaVantageAPI(apiKey);  // Create API instance with the provided key
+        this.usuario = usuario;
     }
 
     /**
@@ -30,13 +32,20 @@ public class StockController {
      * @param quantity the number of stocks purchased.
      * @param purchaseDate the date the stock was purchased.
      */
-    public void processStockData(String symbol, double purchasePrice, int quantity, String purchaseDate) {
+    public void processStockData(String symbol, double purchasePrice, int quantity, String purchaseDate, Usuario usuario) {
         try {
             // Get the current price of the stock using the API
             double currentPrice = api.getCurrentPrice(symbol);
 
             // Calculate stock values
             StockValue stockValues = calculateStockValues(purchasePrice, currentPrice, quantity);
+
+            // Create the StockRecord with the stock values
+            StockRecord record = new StockRecord(symbol, purchasePrice, quantity, purchaseDate);
+            record.setStockValue(stockValues); // Set calculated stock values
+
+            // Add the record to the user's stock records
+            usuario.addStockRecord(record);
 
             // Update the view (table) with the calculated results
             view.updateTable(symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
@@ -54,22 +63,22 @@ public class StockController {
      * @param quantityText the quantity input as text.
      * @param purchaseDateText the purchase date input as text.
      */
-    public void handleSave(String symbol, String purchasePriceText, String quantityText, String purchaseDateText) {
-        // Create a StringBuilder to accumulate errors
+    public void handleSave(String symbol, String purchasePriceText, String quantityText, String purchaseDateText, Usuario usuario) {
+        // Crear un StringBuilder para acumular los errores
         StringBuilder errors = new StringBuilder();
 
-        // Validate the input values and accumulate errors if any
+        // Validar los valores de entrada y acumular errores si hay
         double purchasePrice = StockValidator.validatePositiveDecimal(purchasePriceText, errors);
         int quantity = StockValidator.validatePositiveInteger(quantityText, errors);
         String purchaseDate = StockValidator.validateDate(purchaseDateText, errors);
 
-        // If there are errors, display the accumulated error message
+        // Si hay errores, mostrar el mensaje de error
         if (errors.length() > 0) {
-            // Show the error message to the view
+            // Mostrar el mensaje de error en la vista
             view.showError("Errors found:\n" + errors.toString());
         } else {
-            // If all values are valid, process the stock data
-            processStockData(symbol, purchasePrice, quantity, purchaseDate);
+            // Si todos los valores son válidos, procesar los datos de stock
+            processStockData(symbol, purchasePrice, quantity, purchaseDate, usuario);
         }
     }
 
