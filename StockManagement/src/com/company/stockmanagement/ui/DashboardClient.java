@@ -6,14 +6,9 @@ package com.company.stockmanagement.ui;
 
 import com.company.stockmanagement.AlphaVantageAPI;
 import com.company.stockmanagement.StockController;
-import com.company.stockmanagement.StockDashboard;
-import com.company.stockmanagement.StockData;
-import com.company.stockmanagement.StockValidator;
 import com.company.stockmanagement.StockValue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,7 +35,6 @@ public class DashboardClient extends javax.swing.JFrame {
         // Inicializamos la tabla con una fila vacía para evitar NullPointerException
         model = (DefaultTableModel) jTable1.getModel();
 
-       
         model.insertRow(0, new Object[]{"AMZN", 1, "26/11/2024", 207.82, getCurrentDate(), 205.79, 5.79, 2.895, 207.86, 7.86});
         model.insertRow(1, new Object[]{"AAPL", 1, "26/11/2024", 235.10, getCurrentDate(), 234.80, 7.86, 3.93, 207.86, 7.86});
         model.insertRow(2, new Object[]{"MSFT", 1, "26/11/2024", 427.67, getCurrentDate(), 422.91, 7.86, 3.93, 207.86, 7.86});
@@ -82,7 +76,6 @@ public class DashboardClient extends javax.swing.JFrame {
         model.setValueAt(quantity, rowIndex, 1);  // Columna 1: Cantidad
         model.setValueAt(purchaseDate, rowIndex, 2);  // Columna 2: Fecha de compra
         model.setValueAt(purchasePrice, rowIndex, 3);  // Columna 3: Precio de compra
-
         model.setValueAt(getCurrentDate(), rowIndex, 4);  // Columna 4: Fecha Actual
         model.setValueAt(currentPrice, rowIndex, 5);  // Columna 5: Precio actual
         model.setValueAt(stockValues.getUnitGain(), rowIndex, 6);  // Columna 6: Ganancia unitaria
@@ -369,7 +362,7 @@ public class DashboardClient extends javax.swing.JFrame {
             double currentPrice = api.obtenerPrecioActual(symbol);
 
             // Recalcular los valores asociados a la acción
-            StockValue stockValues = StockDashboard.calculateStockValues(purchasePrice, currentPrice, quantity);
+            StockValue stockValues = StockController.calculateStockValues(purchasePrice, currentPrice, quantity);
 
             // Actualizar los valores de la fila correspondiente en la tabla
             updateTableRow(i, symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
