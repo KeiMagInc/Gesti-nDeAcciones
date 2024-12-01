@@ -10,6 +10,8 @@ import com.company.stockmanagement.StockDashboard;
 import com.company.stockmanagement.StockData;
 import com.company.stockmanagement.StockValidator;
 import com.company.stockmanagement.StockValue;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -34,11 +36,19 @@ public class DashboardClient extends javax.swing.JFrame {
         String apiKey = "70QX4UDI1NSM2LKD"; // Clave de API
         controller = new StockController(this, apiKey);
         this.api = new AlphaVantageAPI(apiKey);
+
         // Inicializamos la tabla con una fila vacía para evitar NullPointerException
         model = (DefaultTableModel) jTable1.getModel();
-        model.insertRow(0, new Object[]{"AMZN", 1, "26/11/2024", 207.82, 205.79, 5.79, 2.895, 207.86, 7.86});
-        model.insertRow(1, new Object[]{"AAPL", 1, "26/11/2024", 235.10, 234.80, 7.86, 3.93, 207.86, 7.86});
-        model.insertRow(2, new Object[]{"MSFT", 1, "26/11/2024", 427.67, 422.91, 7.86, 3.93, 207.86, 7.86});
+
+       
+        model.insertRow(0, new Object[]{"AMZN", 1, "26/11/2024", 207.82, getCurrentDate(), 205.79, 5.79, 2.895, 207.86, 7.86});
+        model.insertRow(1, new Object[]{"AAPL", 1, "26/11/2024", 235.10, getCurrentDate(), 234.80, 7.86, 3.93, 207.86, 7.86});
+        model.insertRow(2, new Object[]{"MSFT", 1, "26/11/2024", 427.67, getCurrentDate(), 422.91, 7.86, 3.93, 207.86, 7.86});
+    }
+
+    private String getCurrentDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(new Date());  // Obtiene la fecha actual
     }
 
     public void updateTable(String symbol, int quantity, String purchaseDate, double purchasePrice,
@@ -49,6 +59,7 @@ public class DashboardClient extends javax.swing.JFrame {
             quantity,
             purchaseDate,
             purchasePrice,
+            getCurrentDate(),
             currentPrice,
             stockValues.getUnitGain(),
             stockValues.getUnitPercentage(),
@@ -71,10 +82,13 @@ public class DashboardClient extends javax.swing.JFrame {
         model.setValueAt(quantity, rowIndex, 1);  // Columna 1: Cantidad
         model.setValueAt(purchaseDate, rowIndex, 2);  // Columna 2: Fecha de compra
         model.setValueAt(purchasePrice, rowIndex, 3);  // Columna 3: Precio de compra
-        model.setValueAt(currentPrice, rowIndex, 4);  // Columna 4: Precio actual
-        model.setValueAt(stockValues.getUnitGain(), rowIndex, 5);  // Columna 5: Ganancia unitaria
-        model.setValueAt(stockValues.getUnitPercentage(), rowIndex, 6);  // Columna 6: Porcentaje de ganancia
-        model.setValueAt(stockValues.getTotalBalance(), rowIndex, 7);  // Columna 7: Balance total
+
+        model.setValueAt(getCurrentDate(), rowIndex, 4);  // Columna 4: Fecha Actual
+        model.setValueAt(currentPrice, rowIndex, 5);  // Columna 5: Precio actual
+        model.setValueAt(stockValues.getUnitGain(), rowIndex, 6);  // Columna 6: Ganancia unitaria
+        model.setValueAt(stockValues.getUnitPercentage(), rowIndex, 7);  // Columna 7: Porcentaje de ganancia
+        model.setValueAt(stockValues.getTotalBalance(), rowIndex, 8);  // Columna 8: Balance total
+        model.setValueAt(stockValues.getTotalGain(), rowIndex, 9);  // Columna 8: Balance total
     }
 
     // Método para mostrar mensajes de error
@@ -186,17 +200,17 @@ public class DashboardClient extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Stock Name", "Quantity", "Purchase Date", "Purchase Price", "Current Price", "Unit Gain", "Unit Percentage", "Total Balance", "Total Gain"
+                "Stock Name", "Quantity", "Purchase Date", "Purchase Price", "Current Date", "Current Price", "Unit Gain", "Unit Percentage", "Total Balance", "Total Gain"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {

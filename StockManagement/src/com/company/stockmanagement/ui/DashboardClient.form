@@ -300,11 +300,12 @@
             <Component class="javax.swing.JTable" name="jTable1">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="9" rowCount="4">
+                  <Table columnCount="10" rowCount="4">
                     <Column editable="true" title="Stock Name" type="java.lang.String"/>
                     <Column editable="true" title="Quantity" type="java.lang.Integer"/>
                     <Column editable="true" title="Purchase Date" type="java.lang.String"/>
                     <Column editable="true" title="Purchase Price" type="java.lang.Double"/>
+                    <Column editable="true" title="Current Date" type="java.lang.Object"/>
                     <Column editable="true" title="Current Price" type="java.lang.Double"/>
                     <Column editable="true" title="Unit Gain" type="java.lang.Double"/>
                     <Column editable="true" title="Unit Percentage" type="java.lang.Double"/>
@@ -314,6 +315,11 @@
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
