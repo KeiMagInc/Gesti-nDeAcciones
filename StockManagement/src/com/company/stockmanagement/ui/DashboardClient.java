@@ -7,6 +7,7 @@ package com.company.stockmanagement.ui;
 import com.company.stockmanagement.AlphaVantageAPI;
 import com.company.stockmanagement.StockController;
 import com.company.stockmanagement.StockValue;
+import com.company.stockmanagement.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -26,12 +27,15 @@ public class DashboardClient extends javax.swing.JFrame {
     private AlphaVantageAPI api;
     private DefaultTableModel model;
     private static final String API_KEY = "70QX4UDI1NSM2LKD";
+    private Usuario usuario;
+
     /**
      * Constructor to initialize the dashboard client, set up the controller and
      * API.
      */
-    public DashboardClient() {
+    public DashboardClient(Usuario usuario) {
         initComponents();
+        this.usuario = usuario;  // Guardar el usuario recibido
         controller = new StockController(this, API_KEY);
         this.api = new AlphaVantageAPI(API_KEY);
 
@@ -63,20 +67,20 @@ public class DashboardClient extends javax.swing.JFrame {
      * @param stockValues the calculated stock values.
      */
     public void updateTable(String symbol, int quantity, String purchaseDate, double purchasePrice,
-                             double currentPrice, StockValue stockValues) {
+            double currentPrice, StockValue stockValues) {
 
         String currentDate = getCurrentDate();
         Object[] newRow = new Object[]{
-                symbol,
-                quantity,
-                purchaseDate,
-                purchasePrice,
-                currentDate,
-                currentPrice,
-                stockValues.getUnitGain(),
-                stockValues.getUnitPercentage(),
-                stockValues.getTotalBalance(),
-                stockValues.getTotalGain()
+            symbol,
+            quantity,
+            purchaseDate,
+            purchasePrice,
+            currentDate,
+            currentPrice,
+            stockValues.getUnitGain(),
+            stockValues.getUnitPercentage(),
+            stockValues.getTotalBalance(),
+            stockValues.getTotalGain()
         };
 
         // Insertar nueva fila o actualizar la existente
@@ -86,8 +90,8 @@ public class DashboardClient extends javax.swing.JFrame {
         jTable1.setModel(model);
         javax.swing.JOptionPane.showMessageDialog(this, "Successfully saved");
     }
-    
-     /**
+
+    /**
      * Show an error message.
      *
      * @param message the error message to display.
@@ -337,7 +341,23 @@ public class DashboardClient extends javax.swing.JFrame {
         String purchaseDateText = txtFPurchaseDate.getText();
 
         // Call the controller to process the stock data
-         controller.handleSave(symbol, purchasePriceText, quantityText, purchaseDateText);
+        controller.handleSave(symbol, purchasePriceText, quantityText, purchaseDateText, usuario);
+
+        
+        System.out.println("Usuario: " + usuario.getNombre() + " ");
+
+        System.out.println("Registros de Stock: ");
+        usuario.getStockRecords().forEach(record -> {
+            System.out.println(record.getSymbol() + "\t"
+                    + record.getQuantity() + "\t"
+                    + record.getPurchaseDate() + "\t"
+                    + record.getPurchasePrice() + "\t"
+                    + record.getCurrentPrice() + "\t"
+                    + record.getUnitGain() + "\t"
+                    + record.getUnitPercentage() + "\t"
+                    + record.getTotalBalance() + "\t"
+                    + record.getTotalGain());
+        });
     }//GEN-LAST:event_btnSaveActionActionPerformed
 
     /**
@@ -346,7 +366,7 @@ public class DashboardClient extends javax.swing.JFrame {
      * @param evt the event triggered by the update button.
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       StockDataUpdater updater = new StockDataUpdater(model);
+        StockDataUpdater updater = new StockDataUpdater(model);
         updater.processStockData(getCurrentDate(), api);
     }//GEN-LAST:event_jButton1ActionPerformed
 
