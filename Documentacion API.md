@@ -7,7 +7,7 @@ Este conjunto de API proporciona datos de renta variable globales en cuatro reso
 3. **Mensual**  
 4. **Intradiaria**  
 
-Incluye más de 20 años de profundidad histórica. Además, ofrece un punto final de cotización de ticker ligero y varias funciones de utilidad, como búsqueda de tickers y estado de apertura/cierre del mercado.
+Ofrece un punto final de cotización de ticket ligero y varias funciones de utilidad, como búsqueda de tickets y estado de apertura/cierre del mercado.
 
 ---
 
@@ -77,8 +77,8 @@ Esta API proporciona series temporales diarias sin procesar de las acciones glob
 - **Cierre diario**,  
 - **Volumen diario**.  
 
-Incluye más de 20 años de historial. Los datos **OHLCV** (Open, High, Low, Close, Volume) son comúnmente referidos como "velas" en la literatura financiera.  
-- **Nota:** Si necesitas datos ajustados por divisiones o dividendos históricos, utiliza la API de datos ajustados diariamente.
+Los datos **OHLCV** (Open, High, Low, Close, Volume) son comúnmente referidos como "velas" en la literatura financiera.  
+- **Nota:** Si necesita datos ajustados por divisiones o dividendos históricos, utiliza la API de datos ajustados diariamente.
 
 ---
 
@@ -126,8 +126,6 @@ Incluye más de 20 años de historial. Los datos **OHLCV** (Open, High, Low, Clo
 
 8. **Ticket negociado en China (Bolsa de Shenzhen):**  
    [JSON](https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=000002.SHZ&outputsize=full&apikey=demo)  
-
-**Nota:** Esto es solo una muestra de los más de 100,000 símbolos admitidos. Consulta el punto de búsqueda para encontrar cualquier símbolo de acciones, ETF o fondo mutuo global.
 
 ---
 
@@ -191,8 +189,6 @@ Los datos **OHLCV** (Open, High, Low, Close, Volume) también se conocen como "v
 
 8. **Ticket negociado en China (Bolsa de Shenzhen):**  
    [JSON](https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=000002.SHZ&outputsize=full&apikey=demo)  
-
-**Nota:** Esto es solo una muestra de los más de 100,000 símbolos admitidos. Consulta el punto de búsqueda para encontrar cualquier símbolo de acciones, ETF o fondo mutuo global.
 
 ---
 
@@ -268,7 +264,7 @@ Este conjunto de API proporciona datos de renta variable globales en cuatro reso
 4. **Intradiaria**
 
 Cuenta con más de 20 años de datos históricos, incluyendo:
-- Cotización de tickers.
+- Cotización de tickets.
 - Funciones de utilidad como búsqueda de tickers y estado de apertura/cierre del mercado.
 
 ## Ejemplo de Uso (Serie Temporal Intradiaria)
@@ -424,11 +420,9 @@ https://www.alphavantage.co/query?function=REALTIME_BULK_QUOTES&symbol=MSFT,AAPL
 ---
 # Utilidad de punto final de búsqueda
 
-¿Busca símbolos o empresas específicas? ¿Está intentando crear un cuadro de búsqueda de autocompletado similar al que se muestra a continuación?
+La **API de búsqueda de símbolos bursátiles** permite una experiencia de búsqueda de tickets con autocompletado.
 
-La **API de búsqueda de símbolos bursátiles** permite una experiencia de búsqueda de tickers con autocompletado.
-
-¡Lo tenemos cubierto! El punto final de búsqueda devuelve los símbolos y la información de mercado más coincidentes en función de las palabras clave que elija. Los resultados de la búsqueda también contienen puntuaciones de coincidencia que le brindan total flexibilidad para desarrollar su propia lógica de búsqueda y filtrado.
+El punto final de búsqueda devuelve los símbolos y la información de mercado más coincidentes en función de las palabras clave que elija. Los resultados de la búsqueda también contienen puntuaciones de coincidencia que brindan total flexibilidad para desarrollar su propia lógica de búsqueda y filtrado.
 
 ## Parámetros de la API
 
