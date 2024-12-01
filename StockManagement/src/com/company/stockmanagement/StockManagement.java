@@ -11,7 +11,7 @@ import com.company.stockmanagement.ui.DashboardClient;
  * calculating stock values, and updating a dashboard with the entered
  * information.
  *
- * @author Gabriel
+ * @author saidl
  */
 public class StockManagement {
 
