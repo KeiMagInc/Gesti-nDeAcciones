@@ -82,7 +82,6 @@ Esta API proporciona series temporales diarias sin procesar de las acciones glob
 - **Volumen diario**.  
 
 Los datos **OHLCV** (Open, High, Low, Close, Volume) son comúnmente referidos como "velas" en la literatura financiera.  
-- **Nota:** Si necesita datos ajustados por divisiones o dividendos históricos, utiliza la API de datos ajustados diariamente.
 
 ---
 
@@ -269,7 +268,7 @@ Este conjunto de API proporciona datos de renta variable globales en cuatro reso
 
 Cuenta con más de 20 años de datos históricos, incluyendo:
 - Cotización de tickets.
-- Funciones de utilidad como búsqueda de tickers y estado de apertura/cierre del mercado.
+- Funciones de utilidad como búsqueda de tickets y estado de apertura/cierre del mercado.
 
 ## Ejemplo de Uso (Serie Temporal Intradiaria)
 
@@ -361,9 +360,7 @@ https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=I
 ---
 # Cotización de puntos finales de tendencia
 
-Este punto de conexión devuelve la información más reciente sobre el precio y el volumen de un ticker de su elección. Puede especificar un ticker por solicitud de API.
-
-Si desea consultar un gran universo de tickers de forma masiva, puede probar nuestra API de **cotizaciones masivas en tiempo real**, que acepta hasta 100 tickers por solicitud de API.
+Este punto de conexión devuelve la información más reciente sobre el precio y el volumen de un ticket de su elección. Puede especificar un ticket por solicitud de API.
 
 ## Parámetros de la API
 
@@ -371,7 +368,7 @@ Si desea consultar un gran universo de tickers de forma masiva, puede probar nue
 La función API de su elección.
 
 - **Obligatorio:** `symbol`
-El símbolo del ticker global de su elección. Por ejemplo:  
+El símbolo del ticket global de su elección. Por ejemplo:  
 `symbol=IBM`
 
 - **Opcional:** `datatype`
