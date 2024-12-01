@@ -50,6 +50,8 @@ public class StockDashboard {
                 totalBalance, // Balance total
                 totalGain // Ganancia total
         );
+        
+        
 
         // Agregar el registro a la lista
         stockRecords.add(record);
