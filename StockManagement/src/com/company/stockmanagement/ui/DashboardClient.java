@@ -347,16 +347,20 @@ public class DashboardClient extends javax.swing.JFrame {
         String quantityText = txtFQuantity.getText();
         String purchaseDateText = txtFPurchaseDate.getText();
 
-        // Validar los valores ingresados
-        double purchasePrice = StockValidator.validarDecimalPositivo(purchasePriceText);
-        int quantity = StockValidator.validarEnteroPositivo(quantityText);
-        String purchaseDate = StockValidator.validarFecha(purchaseDateText);
+        // Crear un StringBuilder para acumular errores
+        StringBuilder errores = new StringBuilder();
 
-        // Si todos los valores son válidos, proceder con el controlador
-        if (purchasePrice != -1 && quantity != -1 && purchaseDate != null) {
-            controller.processStockData(symbol, purchasePrice, quantity, purchaseDate);
+        // Validar los valores ingresados y acumular errores si existen
+        double purchasePrice = StockValidator.validarDecimalPositivo(purchasePriceText, errores);
+        int quantity = StockValidator.validarEnteroPositivo(quantityText, errores);
+        String purchaseDate = StockValidator.validarFecha(purchaseDateText, errores);
+
+        // Si hay errores, mostrar el mensaje acumulado
+        if (errores.length() > 0) {
+            JOptionPane.showMessageDialog(this, "Errores encontrados:\n" + errores.toString());
         } else {
-            JOptionPane.showMessageDialog(this, "Por favor corrige los errores antes de guardar.");
+            // Si todos los valores son válidos, proceder con el controlador
+            controller.processStockData(symbol, purchasePrice, quantity, purchaseDate);
         }
     }//GEN-LAST:event_btnSaveActionActionPerformed
 
