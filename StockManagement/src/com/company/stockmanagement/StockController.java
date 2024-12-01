@@ -27,7 +27,7 @@ public class StockController {
             double currentPrice = api.obtenerPrecioActual(symbol);
 
             // Calcular los valores de la acción
-            StockValue stockValues = StockDashboard.calculateStockValues(purchasePrice, currentPrice, quantity);
+            StockValue stockValues = calculateStockValues(purchasePrice, currentPrice, quantity);
 
             // Actualizar la vista (la tabla) con los resultados calculados
             view.updateTable(symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
@@ -54,6 +54,18 @@ public class StockController {
             // Si todos los valores son válidos, procesar los datos
             processStockData(symbol, purchasePrice, quantity, purchaseDate);
         }
+    }
+
+    public static StockValue calculateStockValues(double purchasePrice, double currentPrice, int quantity) {
+        double totalCost = purchasePrice * quantity;
+        double totalBalance = currentPrice * quantity;
+
+        double unitGain = currentPrice - purchasePrice;
+        double unitPercentage = (unitGain / purchasePrice) * 100;
+
+        double totalGain = totalBalance - totalCost;
+
+        return new StockValue( totalCost, currentPrice, unitGain,  unitPercentage,  totalBalance,  totalGain);
     }
 
 }

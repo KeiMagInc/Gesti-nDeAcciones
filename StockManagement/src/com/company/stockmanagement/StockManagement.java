@@ -1,7 +1,6 @@
 package com.company.stockmanagement;
 
 import com.company.stockmanagement.ui.DashboardClient;
-import java.util.Scanner;
 
 /**
  * Clase principal para gestionar el stock de acciones. Permite al usuario registrar
