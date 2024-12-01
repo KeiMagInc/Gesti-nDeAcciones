@@ -12,42 +12,59 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * DashboardClient class that manages the user interface for displaying and
+ * managing stock data. It interacts with the StockController and
+ * AlphaVantageAPI to process and update stock information.
  *
- * @author saidl
+ * @author Gabriel
  */
 public class DashboardClient extends javax.swing.JFrame {
 
-    /**
-     * Creates new form dashboardClient
-     */
-    // Declaración de la variable controller como una variable de instancia
+    // Declare controller, api, and table model as instance variables
     private StockController controller;
     private AlphaVantageAPI api;
     private DefaultTableModel model;
 
+    /**
+     * Constructor to initialize the dashboard client, set up the controller and
+     * API.
+     */
     public DashboardClient() {
         initComponents();
-        // Inicializamos el controlador con la vista (DashboardClient) y la clave de la API
-        String apiKey = "70QX4UDI1NSM2LKD"; // Clave de API
+        String apiKey = "70QX4UDI1NSM2LKD";
         controller = new StockController(this, apiKey);
         this.api = new AlphaVantageAPI(apiKey);
 
-        // Inicializamos la tabla con una fila vacía para evitar NullPointerException
+        // Initialize the table with an empty row to prevent NullPointerException
         model = (DefaultTableModel) jTable1.getModel();
-
         model.insertRow(0, new Object[]{"AMZN", 1, "26/11/2024", 207.82, getCurrentDate(), 205.79, 5.79, 2.895, 207.86, 7.86});
         model.insertRow(1, new Object[]{"AAPL", 1, "26/11/2024", 235.10, getCurrentDate(), 234.80, 7.86, 3.93, 207.86, 7.86});
         model.insertRow(2, new Object[]{"MSFT", 1, "26/11/2024", 427.67, getCurrentDate(), 422.91, 7.86, 3.93, 207.86, 7.86});
     }
 
+    /**
+     * Get the current date in the format dd/MM/yyyy.
+     *
+     * @return the current date as a string.
+     */
     private String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());  // Obtiene la fecha actual
     }
 
+    /**
+     * Update the table with the provided stock data.
+     *
+     * @param symbol the stock symbol.
+     * @param quantity the quantity of stock.
+     * @param purchaseDate the purchase date.
+     * @param purchasePrice the purchase price.
+     * @param currentPrice the current stock price.
+     * @param stockValues the calculated stock values.
+     */
     public void updateTable(String symbol, int quantity, String purchaseDate, double purchasePrice,
             double currentPrice, StockValue stockValues) {
-        // Crear un array con los datos de la nueva fila
+
         Object[] newRow = new Object[]{
             symbol,
             quantity,
@@ -61,30 +78,45 @@ public class DashboardClient extends javax.swing.JFrame {
             stockValues.getTotalGain()
         };
 
-        // Insertar la fila al principio (índice 0)
+        // Insert the new row at the beginning of the table
         model.insertRow(0, newRow);
 
-        // Actualizar la vista de la tabla
+        // Update the table view
         jTable1.setModel(model);
 
-        //Mostrar mensaje de que se guardo la accion
+        // Show success message
         javax.swing.JOptionPane.showMessageDialog(this, "Successfully saved");
     }
 
+    /**
+     * Update a specific row in the table.
+     *
+     * @param rowIndex the index of the row to update.
+     * @param symbol the stock symbol.
+     * @param quantity the quantity of stock.
+     * @param purchaseDate the purchase date.
+     * @param purchasePrice the purchase price.
+     * @param currentPrice the current stock price.
+     * @param stockValues the calculated stock values.
+     */
     private void updateTableRow(int rowIndex, String symbol, int quantity, String purchaseDate, double purchasePrice, double currentPrice, StockValue stockValues) {
-        model.setValueAt(symbol, rowIndex, 0);  // Columna 0: Símbolo
-        model.setValueAt(quantity, rowIndex, 1);  // Columna 1: Cantidad
-        model.setValueAt(purchaseDate, rowIndex, 2);  // Columna 2: Fecha de compra
-        model.setValueAt(purchasePrice, rowIndex, 3);  // Columna 3: Precio de compra
-        model.setValueAt(getCurrentDate(), rowIndex, 4);  // Columna 4: Fecha Actual
-        model.setValueAt(currentPrice, rowIndex, 5);  // Columna 5: Precio actual
-        model.setValueAt(stockValues.getUnitGain(), rowIndex, 6);  // Columna 6: Ganancia unitaria
-        model.setValueAt(stockValues.getUnitPercentage(), rowIndex, 7);  // Columna 7: Porcentaje de ganancia
-        model.setValueAt(stockValues.getTotalBalance(), rowIndex, 8);  // Columna 8: Balance total
-        model.setValueAt(stockValues.getTotalGain(), rowIndex, 9);  // Columna 8: Balance total
+        model.setValueAt(symbol, rowIndex, 0);  // Column 0: Symbol
+        model.setValueAt(quantity, rowIndex, 1);  // Column 1: Quantity
+        model.setValueAt(purchaseDate, rowIndex, 2);  // Column 2: Purchase Date
+        model.setValueAt(purchasePrice, rowIndex, 3);  // Column 3: Purchase Price
+        model.setValueAt(getCurrentDate(), rowIndex, 4);  // Column 4: Current Date
+        model.setValueAt(currentPrice, rowIndex, 5);  // Column 5: Current Price
+        model.setValueAt(stockValues.getUnitGain(), rowIndex, 6);  // Column 6: Unit Gain
+        model.setValueAt(stockValues.getUnitPercentage(), rowIndex, 7);  // Column 7: Unit Percentage
+        model.setValueAt(stockValues.getTotalBalance(), rowIndex, 8);  // Column 8: Total Balance
+        model.setValueAt(stockValues.getTotalGain(), rowIndex, 9);  // Column 9: Total Gain
     }
 
-    // Método para mostrar mensajes de error
+    /**
+     * Show an error message.
+     *
+     * @param message the error message to display.
+     */
     public void showError(String message) {
         javax.swing.JOptionPane.showMessageDialog(this, message);
     }
@@ -317,54 +349,56 @@ public class DashboardClient extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFPurchasePriceActionPerformed
 
+    /**
+     * Handle the action of saving stock data.
+     *
+     * @param evt the event triggered by the save button.
+     */
     private void btnSaveActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionActionPerformed
-        // Obtener los valores ingresados por el usuario
+        // Get the user input values
         String symbol = comboBoxSymbol.getSelectedItem().toString();
         String purchasePriceText = txtFPurchasePrice.getText();
         String quantityText = txtFQuantity.getText();
         String purchaseDateText = txtFPurchaseDate.getText();
 
-        // Llamar al controlador para procesar la acción
+        // Call the controller to process the stock data
         controller.handleSave(symbol, purchasePriceText, quantityText, purchaseDateText);
     }//GEN-LAST:event_btnSaveActionActionPerformed
 
+    /**
+     * Update the stock data for all rows in the table.
+     *
+     * @param evt the event triggered by the update button.
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Usamos el modelo de tabla ya asignado a la variable de instancia "model"
-        // Iteramos por todas las filas de la tabla
         for (int i = 0; i < model.getRowCount(); i++) {
             // Verificar si el símbolo es nulo o vacío en la columna 0 (Símbolo)
             String symbol = model.getValueAt(i, 0) != null ? model.getValueAt(i, 0).toString() : "";
             if (symbol.isEmpty()) {
-                continue;  // Saltar esta fila si el símbolo es inválido
+                continue;
             }
 
-            // Verificar si el precio de compra es nulo o vacío en la columna 3 (Precio de compra)
             String purchasePriceText = model.getValueAt(i, 3) != null ? model.getValueAt(i, 3).toString() : "0.0";
             double purchasePrice = Double.parseDouble(purchasePriceText);
             if (purchasePrice <= 0) {
-                continue;  // Saltar esta fila si el precio de compra es inválido
+                continue;
             }
 
-            // Verificar si la cantidad es nula o inválida en la columna 1 (Cantidad)
             String quantityText = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "0";
             int quantity = Integer.parseInt(quantityText);
             if (quantity <= 0) {
-                continue;  // Saltar esta fila si la cantidad es inválida
+                continue;
             }
 
-            // Obtener la fecha de compra desde la columna 2 (Fecha de compra)
             String purchaseDate = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
             if (purchaseDate.isEmpty()) {
-                continue;  // Saltar esta fila si la fecha de compra es inválida
+                continue;
             }
 
-            // Obtener el precio actual de la acción desde la API
-            double currentPrice = api.obtenerPrecioActual(symbol);
+            double currentPrice = api.getCurrentPrice(symbol);
 
-            // Recalcular los valores asociados a la acción
             StockValue stockValues = StockController.calculateStockValues(purchasePrice, currentPrice, quantity);
 
-            // Actualizar los valores de la fila correspondiente en la tabla
             updateTableRow(i, symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

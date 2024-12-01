@@ -1,61 +1,91 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.company.stockmanagement;
 
 import com.company.stockmanagement.ui.DashboardClient;
 
 /**
- *
- * @author saidl
+ * Controller class for managing stock data processing and interactions with the
+ * view.
  */
 public class StockController {
 
     private DashboardClient view;
     private AlphaVantageAPI api;
 
+    /**
+     * Constructor for StockController.
+     *
+     * @param view the view interface (DashboardClient) to update the UI.
+     * @param apiKey the API key for accessing AlphaVantage API.
+     */
     public StockController(DashboardClient view, String apiKey) {
         this.view = view;
-        this.api = new AlphaVantageAPI(apiKey);  // Crear instancia de la API con la clave proporcionada
+        this.api = new AlphaVantageAPI(apiKey);  // Create API instance with the provided key
     }
 
-    // Método para procesar los datos de la acción
+    /**
+     * Processes stock data and updates the view with calculated stock values.
+     *
+     * @param symbol the stock symbol to retrieve data for.
+     * @param purchasePrice the price at which the stock was purchased.
+     * @param quantity the number of stocks purchased.
+     * @param purchaseDate the date the stock was purchased.
+     */
     public void processStockData(String symbol, double purchasePrice, int quantity, String purchaseDate) {
         try {
-            // Obtener el precio actual de la acción usando la API
-            double currentPrice = api.obtenerPrecioActual(symbol);
+            // Get the current price of the stock using the API
+            double currentPrice = api.getCurrentPrice(symbol);
 
-            // Calcular los valores de la acción
+            // Calculate stock values
             StockValue stockValues = calculateStockValues(purchasePrice, currentPrice, quantity);
 
-            // Actualizar la vista (la tabla) con los resultados calculados
+            // Update the view (table) with the calculated results
             view.updateTable(symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
         } catch (Exception e) {
-            // Enviar el error a la vista (por ejemplo, un mensaje emergente)
+            // Send the error to the view (e.g., show an error message)
             view.showError("Error: " + e.getMessage());
         }
     }
 
+    /**
+     * Handles the save operation by validating inputs and processing data.
+     *
+     * @param symbol the stock symbol.
+     * @param purchasePriceText the purchase price input as text.
+     * @param quantityText the quantity input as text.
+     * @param purchaseDateText the purchase date input as text.
+     */
     public void handleSave(String symbol, String purchasePriceText, String quantityText, String purchaseDateText) {
-        // Crear un StringBuilder para acumular errores
-        StringBuilder errores = new StringBuilder();
+        // Create a StringBuilder to accumulate errors
+        StringBuilder errors = new StringBuilder();
 
-        // Validar los valores ingresados y acumular errores si existen
-        double purchasePrice = StockValidator.validarDecimalPositivo(purchasePriceText, errores);
-        int quantity = StockValidator.validarEnteroPositivo(quantityText, errores);
-        String purchaseDate = StockValidator.validarFecha(purchaseDateText, errores);
+        // Validate the input values and accumulate errors if any
+        double purchasePrice = StockValidator.validatePositiveDecimal(purchasePriceText, errors);
+        int quantity = StockValidator.validatePositiveInteger(quantityText, errors);
+        String purchaseDate = StockValidator.validateDate(purchaseDateText, errors);
 
-        // Si hay errores, mostrar el mensaje acumulado
-        if (errores.length() > 0) {
-            // Mostrar el mensaje de error a la vista
-            view.showError("Errores encontrados:\n" + errores.toString());
+        // If there are errors, display the accumulated error message
+        if (errors.length() > 0) {
+            // Show the error message to the view
+            view.showError("Errors found:\n" + errors.toString());
         } else {
-            // Si todos los valores son válidos, procesar los datos
+            // If all values are valid, process the stock data
             processStockData(symbol, purchasePrice, quantity, purchaseDate);
         }
     }
 
+    /**
+     * Calculates the stock values based on purchase price, current price, and
+     * quantity.
+     *
+     * @param purchasePrice the price at which the stock was purchased.
+     * @param currentPrice the current price of the stock.
+     * @param quantity the number of stocks.
+     * @return a StockValue object containing the calculated stock values.
+     */
     public static StockValue calculateStockValues(double purchasePrice, double currentPrice, int quantity) {
         double totalCost = purchasePrice * quantity;
         double totalBalance = currentPrice * quantity;
@@ -65,7 +95,6 @@ public class StockController {
 
         double totalGain = totalBalance - totalCost;
 
-        return new StockValue( totalCost, currentPrice, unitGain,  unitPercentage,  totalBalance,  totalGain);
+        return new StockValue(totalCost, currentPrice, unitGain, unitPercentage, totalBalance, totalGain);
     }
-
 }
