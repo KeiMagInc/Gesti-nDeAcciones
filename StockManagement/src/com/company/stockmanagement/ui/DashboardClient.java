@@ -26,6 +26,7 @@ public class DashboardClient extends javax.swing.JFrame {
     // Declaración de la variable controller como una variable de instancia
     private StockController controller;
     private AlphaVantageAPI api;
+    private DefaultTableModel model;
 
     public DashboardClient() {
         initComponents();
@@ -33,13 +34,15 @@ public class DashboardClient extends javax.swing.JFrame {
         String apiKey = "70QX4UDI1NSM2LKD"; // Clave de API
         controller = new StockController(this, apiKey);
         this.api = new AlphaVantageAPI(apiKey);
+        // Inicializamos la tabla con una fila vacía para evitar NullPointerException
+        model = (DefaultTableModel) jTable1.getModel();
+        model.insertRow(0, new Object[]{"AMZN", 1, "26/11/2024", 207.82, 205.79, 5.79, 2.895, 207.86, 7.86});
+        model.insertRow(1, new Object[]{"AAPL", 1, "26/11/2024", 235.10, 234.80, 7.86, 3.93, 207.86, 7.86});
+        model.insertRow(2, new Object[]{"MSFT", 1, "26/11/2024", 427.67, 422.91, 7.86, 3.93, 207.86, 7.86});
     }
 
     public void updateTable(String symbol, int quantity, String purchaseDate, double purchasePrice,
             double currentPrice, StockValue stockValues) {
-        // Obtener el modelo de la tabla
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
         // Crear un array con los datos de la nueva fila
         Object[] newRow = new Object[]{
             symbol,
@@ -63,53 +66,15 @@ public class DashboardClient extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this, "Successfully saved");
     }
 
-    // Método para actualizar los valores de la tabla
-    private void refreshTable() {
-        // Obtener el modelo de la tabla
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int rowCount = model.getRowCount();
-
-        for (int i = 0; i < rowCount; i++) {
-            // Obtener los valores de las columnas de cada fila, comenzando desde la columna 4
-            String symbol = model.getValueAt(i, 0) != null ? model.getValueAt(i, 0).toString() : "";
-            int quantity = model.getValueAt(i, 1) != null ? Integer.parseInt(model.getValueAt(i, 1).toString()) : 0;
-            String purchaseDate = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
-            double purchasePrice = model.getValueAt(i, 3) != null ? Double.parseDouble(model.getValueAt(i, 3).toString()) : 0.0;
-
-            try {
-                if (api == null) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "API not initialized.");
-                    return;
-                }
-
-                // Obtener el precio actual de la acción usando la API
-                double currentPrice = api.obtenerPrecioActual(symbol);
-
-                // Verificar que el precio actual no sea -1 (indicación de error en la API)
-                if (currentPrice == -1) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "Error retrieving current price for " + symbol);
-                    continue;  // Si no se pudo obtener el precio, salta a la siguiente fila
-                }
-
-                // Calcular los valores de la acción
-                StockValue stockValues = StockDashboard.calculateStockValues(purchasePrice, currentPrice, quantity);
-
-                // Actualizar los valores de la tabla desde la columna 4 en adelante
-                model.setValueAt(currentPrice, i, 4);  // Columna de precio actual
-                model.setValueAt(stockValues.getUnitGain(), i, 5);  // Columna de ganancia por unidad
-                model.setValueAt(stockValues.getUnitPercentage(), i, 6);  // Columna de porcentaje de ganancia
-                model.setValueAt(stockValues.getTotalBalance(), i, 7);  // Columna de saldo total
-                model.setValueAt(stockValues.getTotalGain(), i, 8);  // Columna de ganancia total
-
-                // Actualizar la vista de la tabla
-                jTable1.setModel(model);
-            } catch (Exception e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Error updating the table: " + e.getMessage());
-            }
-        }
-
-        // Mostrar mensaje de que la tabla se actualizó
-        javax.swing.JOptionPane.showMessageDialog(this, "Table successfully updated");
+    private void updateTableRow(int rowIndex, String symbol, int quantity, String purchaseDate, double purchasePrice, double currentPrice, StockValue stockValues) {
+        model.setValueAt(symbol, rowIndex, 0);  // Columna 0: Símbolo
+        model.setValueAt(quantity, rowIndex, 1);  // Columna 1: Cantidad
+        model.setValueAt(purchaseDate, rowIndex, 2);  // Columna 2: Fecha de compra
+        model.setValueAt(purchasePrice, rowIndex, 3);  // Columna 3: Precio de compra
+        model.setValueAt(currentPrice, rowIndex, 4);  // Columna 4: Precio actual
+        model.setValueAt(stockValues.getUnitGain(), rowIndex, 5);  // Columna 5: Ganancia unitaria
+        model.setValueAt(stockValues.getUnitPercentage(), rowIndex, 6);  // Columna 6: Porcentaje de ganancia
+        model.setValueAt(stockValues.getTotalBalance(), rowIndex, 7);  // Columna 7: Balance total
     }
 
     // Método para mostrar mensajes de error
@@ -182,7 +147,12 @@ public class DashboardClient extends javax.swing.JFrame {
         txtSymnol.setText("Symbol:");
 
         comboBoxSymbol.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        comboBoxSymbol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AAPL", "AMZN", "MSFT", " " }));
+        comboBoxSymbol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AAPL", "AMZN", "MSFT" }));
+        comboBoxSymbol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSymbolActionPerformed(evt);
+            }
+        });
 
         txtPurchasePrice.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         txtPurchasePrice.setText("Purchase price:");
@@ -282,7 +252,7 @@ public class DashboardClient extends javax.swing.JFrame {
                                 .addGap(785, 785, 785)
                                 .addComponent(jButton1))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 927, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 41, Short.MAX_VALUE))))
+                        .addGap(0, 44, Short.MAX_VALUE))))
         );
         actionInfoLayout.setVerticalGroup(
             actionInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,8 +331,49 @@ public class DashboardClient extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        refreshTable();
+        // Usamos el modelo de tabla ya asignado a la variable de instancia "model"
+        // Iteramos por todas las filas de la tabla
+        for (int i = 0; i < model.getRowCount(); i++) {
+            // Verificar si el símbolo es nulo o vacío en la columna 0 (Símbolo)
+            String symbol = model.getValueAt(i, 0) != null ? model.getValueAt(i, 0).toString() : "";
+            if (symbol.isEmpty()) {
+                continue;  // Saltar esta fila si el símbolo es inválido
+            }
+
+            // Verificar si el precio de compra es nulo o vacío en la columna 3 (Precio de compra)
+            String purchasePriceText = model.getValueAt(i, 3) != null ? model.getValueAt(i, 3).toString() : "0.0";
+            double purchasePrice = Double.parseDouble(purchasePriceText);
+            if (purchasePrice <= 0) {
+                continue;  // Saltar esta fila si el precio de compra es inválido
+            }
+
+            // Verificar si la cantidad es nula o inválida en la columna 1 (Cantidad)
+            String quantityText = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "0";
+            int quantity = Integer.parseInt(quantityText);
+            if (quantity <= 0) {
+                continue;  // Saltar esta fila si la cantidad es inválida
+            }
+
+            // Obtener la fecha de compra desde la columna 2 (Fecha de compra)
+            String purchaseDate = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
+            if (purchaseDate.isEmpty()) {
+                continue;  // Saltar esta fila si la fecha de compra es inválida
+            }
+
+            // Obtener el precio actual de la acción desde la API
+            double currentPrice = api.obtenerPrecioActual(symbol);
+
+            // Recalcular los valores asociados a la acción
+            StockValue stockValues = StockDashboard.calculateStockValues(purchasePrice, currentPrice, quantity);
+
+            // Actualizar los valores de la fila correspondiente en la tabla
+            updateTableRow(i, symbol, quantity, purchaseDate, purchasePrice, currentPrice, stockValues);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void comboBoxSymbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSymbolActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxSymbolActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
