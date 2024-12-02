@@ -7,7 +7,8 @@ package com.company.stockmanagement.ui;
 import com.company.stockmanagement.AlphaVantageAPI;
 import com.company.stockmanagement.StockController;
 import com.company.stockmanagement.StockValue;
-import com.company.stockmanagement.Usuario;
+import com.company.stockmanagement.StockValue;
+import com.company.stockmanagement.User;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -27,15 +28,15 @@ public class DashboardClient extends javax.swing.JFrame {
     private AlphaVantageAPI api;
     private DefaultTableModel model;
     private static final String API_KEY = "70QX4UDI1NSM2LKD";
-    private Usuario usuario;
+    private User user;
 
     /**
      * Constructor to initialize the dashboard client, set up the controller and
      * API.
      */
-    public DashboardClient(Usuario usuario) {
+    public DashboardClient(User usuario) {
         initComponents();
-        this.usuario = usuario;  // Guardar el usuario recibido
+        this.user = usuario;  // Guardar el user recibido
         controller = new StockController(this, API_KEY);
         this.api = new AlphaVantageAPI(API_KEY);
 
@@ -341,23 +342,7 @@ public class DashboardClient extends javax.swing.JFrame {
         String purchaseDateText = txtFPurchaseDate.getText();
 
         // Call the controller to process the stock data
-        controller.handleSave(symbol, purchasePriceText, quantityText, purchaseDateText, usuario);
-
-        
-        System.out.println("Usuario: " + usuario.getNombre() + " ");
-
-        System.out.println("Registros de Stock: ");
-        usuario.getStockRecords().forEach(record -> {
-            System.out.println(record.getSymbol() + "\t"
-                    + record.getQuantity() + "\t"
-                    + record.getPurchaseDate() + "\t"
-                    + record.getPurchasePrice() + "\t"
-                    + record.getCurrentPrice() + "\t"
-                    + record.getUnitGain() + "\t"
-                    + record.getUnitPercentage() + "\t"
-                    + record.getTotalBalance() + "\t"
-                    + record.getTotalGain());
-        });
+        controller.handleSave(symbol, purchasePriceText, quantityText, purchaseDateText, user);
     }//GEN-LAST:event_btnSaveActionActionPerformed
 
     /**
